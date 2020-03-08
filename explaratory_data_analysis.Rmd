@@ -26,5 +26,33 @@ ggplot(data %>% filter(gender == 'M'), aes(x = word_span, color = gender)) +
 #word span distribution for females
 ggplot(data %>% filter(gender == 'F'), aes(x = word_span, color = gender)) +
   geom_histogram()
+
+#age distribution for males
+ggplot(data %>% filter(gender == 'M'), aes(x = age_1)) +
+  geom_histogram()
+
+#age distribution for females
+ggplot(data %>% filter(gender == 'F'), aes(x = age_1)) +
+  geom_histogram()
+
+#word span vs total emotional score
+ggplot(data, aes(x = word_span, y = emo_total_1)) +
+  geom_point() +
+  geom_jitter()
+
+
+#look at total emotional score spread for intervention group
+ggplot(data %>% filter(intervention == 1), aes(x = emo_total_3)) +
+  geom_histogram()
+  
+
+#look at total emotional score spread for control group
+ggplot(data %>% filter(intervention == 0),  aes(x = emo_total_3)) +
+  geom_histogram()
+
+#scatterplot between word span and emotion score 
+ggplot(data, aes(x = word_span, y = emo_total_3, color = gender)) +
+  geom_point() +
+  geom_jitter()
 ```
 
