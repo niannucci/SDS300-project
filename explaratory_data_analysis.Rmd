@@ -10,5 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(readxl)
+data <- read_excel("NIH P1 Emotion Understanding SDS300.xlsx")
 ```
 
