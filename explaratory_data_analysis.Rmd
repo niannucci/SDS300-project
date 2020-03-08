@@ -16,7 +16,15 @@ data <- janitor::clean_names(data, 'snake')
 ```
 
 ```{r}
-ggplot(data, aes(x = word_span, color = gender_1)) +
+ggplot(data, aes(x = word_span, color = gender)) +
+  geom_histogram()
+
+#word span distribution for males
+ggplot(data %>% filter(gender == 'M'), aes(x = word_span, color = gender)) +
+  geom_histogram()
+
+#word span distribution for females
+ggplot(data %>% filter(gender == 'F'), aes(x = word_span, color = gender)) +
   geom_histogram()
 ```
 
