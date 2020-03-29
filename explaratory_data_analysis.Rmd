@@ -15,42 +15,93 @@ data <- read_excel("NIH P1 Emotion Understanding SDS300.xlsx")
 data <- janitor::clean_names(data, 'snake')
 ```
 
+
+Univariate Analysis:
 ```{r}
-ggplot(data, aes(x = word_span, color = gender)) +
+#males vs females in the study
+ggplot(data, aes(x = gender_1)) +
   geom_histogram()
 
-#word span distribution for males
-ggplot(data %>% filter(gender == 'M'), aes(x = word_span, color = gender)) +
-  geom_histogram()
+summary(data$gender_1)
 
-#word span distribution for females
-ggplot(data %>% filter(gender == 'F'), aes(x = word_span, color = gender)) +
-  geom_histogram()
+#distribution of word spans according to gender
+ggplot(data, aes(x = word_span)) +
+  geom_histogram() +
+  facet_grid(vars(gender))
 
-#age distribution for males
-ggplot(data %>% filter(gender == 'M'), aes(x = age_1)) +
-  geom_histogram()
+summary(data$word_span)
 
-#age distribution for females
-ggplot(data %>% filter(gender == 'F'), aes(x = age_1)) +
-  geom_histogram()
+#age distribution for males vs females
+ggplot(data, aes(x = age_1)) +
+  geom_histogram() +
+  facet_grid(vars(gender))
 
+summary(data$age_1)
+
+#PLS4 score distribution male vs female
+ggplot(data, aes(x = pls4comp_raw1)) +
+  geom_histogram() +
+  facet_grid(vars(gender))
+
+summary(data$pls4comp_raw1)
+summary(data$pls4_comp_raw3)
+#increase from 1 to 3
+
+#EOWPVT raw score distribution male vs female 
+ggplot(data, aes(x = eowpvt_raw1)) +
+  geom_histogram() +
+  facet_grid(vars(gender))
+
+summary(data$eowpvt_raw1)
+summary(data$eowpvt_raw3)
+#increase from 1 to 3
+
+#EMO sit 1 distrubution
+ggplot(data, aes(x = emo_sit_1)) +
+  geom_histogram() +
+  facet_grid(vars(gender))
+
+summary(data$emo_sit_1)
+summary(data$emo_sit_3)
+#only slight inc
+
+#look at total pre emotional score for intervention groups vs no intervention
+ggplot(data, aes(x = emo_total_1)) +
+  geom_histogram() +
+  facet_grid(vars(intervention))
+
+summary((data %>% filter(intervention == 1))$emo_total_1)
+summary((data %>% filter(intervention == 0))$emo_total_1)
+#both groups start off pretty similar
+
+#look at total post emotional score for intervention groups vs no intervention
+ggplot(data, aes(x = emo_total_3)) +
+  geom_histogram() +
+  facet_grid(vars(intervention))
+
+summary((data %>% filter(intervention == 1))$emo_total_3)
+summary((data %>% filter(intervention == 0))$emo_total_3)
+
+#compare emo_total_1 to emo_total_3; did intervention make a difference?
+```
+
+Bivariate Analysis
+```{r}
 #word span vs total emotional score
 ggplot(data, aes(x = word_span, y = emo_total_1)) +
   geom_point() +
   geom_jitter()
 
+ggplot(data, aes(x = word_span, y = emo_total_3)) +
+  geom_point() +
+  geom_jitter()
 
-#look at total emotional score spread for intervention group
-ggplot(data %>% filter(intervention == 1), aes(x = emo_total_3)) +
-  geom_histogram()
-  
+#it looks like there is a more linear relationship for 3 than 1
 
-#look at total emotional score spread for control group
-ggplot(data %>% filter(intervention == 0),  aes(x = emo_total_3)) +
-  geom_histogram()
 
-#scatterplot between word span and emotion score 
+
+
+#scatterplot between word span and emotion score - do kids with a higher word span have better emotional understanding? 
 ggplot(data, aes(x = word_span, y = emo_total_3, color = gender)) +
   geom_point() +
   geom_jitter()
