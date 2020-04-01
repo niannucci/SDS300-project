@@ -159,6 +159,7 @@ mod10 <- lm(emo_total_3 ~ i_group, data = data)
 summary(mod10)
 #r^2 is basically zero
   
-
 ```
 
+
+NEXT: maybe try logistic regression for gender, doing models with binary variables for intervention group?
