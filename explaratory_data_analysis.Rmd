@@ -107,3 +107,58 @@ ggplot(data, aes(x = word_span, y = emo_total_3, color = gender)) +
   geom_jitter()
 ```
 
+
+try different linear regression models
+```{r}
+mod1 <- lm(emo_total_3 ~ word_span, data = data %>% filter(intervention == 1))
+summary(mod1)
+#very weak R and R^2, but filtering for intervention improves it
+
+
+mod2 <- lm(word_span ~ pls4comp_raw1, data = data)
+summary(mod2)
+
+mod3 <- lm(word_span ~ pls4_comp_raw3, data = data)
+summary(mod3)
+#stronger using post scores vs pre scores
+
+mod4 <- lm(word_span ~ pls4_comp_raw3, data = data %>% filter(intervention == 1))
+summary(mod4)
+#similar strength to control group
+
+mod5 <- lm(emo_total_3 ~ word_span + eowpvt_raw3, data = data %>% filter(intervention == 0))
+summary(mod5)
+#basically no linear correlation at all for control group
+  
+mod6 <- lm(emo_total_3 ~ word_span + eowpvt_raw3 + pls4_comp_raw3, data = data %>% filter(intervention == 1))
+summary(mod6)
+#more linear correlation for intervention group!
+
+
+
+#filter for explicit emotion group
+mod7 <- lm(emo_total_3 ~ word_span + eowpvt_raw3 + pls4_comp_raw3, data = data %>% filter(i_group == 2))
+summary(mod7)
+#explicit emotion group has a much more linear correlation!!! r is close to 0.5, highest so far
+
+#filter for implicit emotion group
+mod8 <- lm(emo_total_3 ~ word_span + eowpvt_raw3 + pls4_comp_raw3, data = data %>% filter(i_group == 3))
+summary(mod8)
+#weaker correlation 
+
+#filter for control group
+mod9 <- lm(emo_total_3 ~ word_span + eowpvt_raw3 + pls4_comp_raw3, data = data %>% filter(i_group == 1))
+summary(mod9)
+#basically no linear correlation 
+
+
+#relationship between pre and post emo scores for each:
+
+#filter for control group
+mod10 <- lm(emo_total_3 ~ i_group, data = data)
+summary(mod10)
+#r^2 is basically zero
+  
+
+```
+
