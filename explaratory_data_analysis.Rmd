@@ -162,3 +162,35 @@ summary(mod6i)
 
 
 NEXT: maybe try logistic regression for gender, doing models with binary variables for intervention group?
+
+
+
+FINAL ANALYSIS
+
+add new variables to get change in scores for each student
+```{r}
+data <- data %>%
+  mutate(change_pls4 = (pls4_comp_raw3 - pls4comp_raw1)) %>%
+  mutate(change_eowpvt = (eowpvt_raw3- eowpvt_raw1)) %>%
+  mutate(change_emo_total = (emo_total_3 - emo_total_1)) %>%
+  mutate(change_emo_sit = (emo_sit_3 - emo_sit_1)) %>%
+  mutate(change_emo_desire = (emo_desire_3 - emo_desire_1)) 
+```
+
+
+multiple regression
+```{r}
+mult_mod <- lm(change_pls4 ~ i_group + nviq_ss + ped + word_span + age_1, data = data)
+summary(mult_mod)
+
+mult_mod2 <- lm(change_eowpvt ~ i_group + nviq_ss + ped + word_span + age_1, data = data)
+summary(mult_mod2)
+
+mult_mod3 <- lm(change_emo_total ~ i_group + nviq_ss + ped + age_1, data = data)
+summary(mult_mod3)
+
+summary(lm(change_emo_sit ~ i_group + nviq_ss + word_span + age_1, data = data))
+summary(lm(change_emo_desire ~ nviq_ss + word_span, data = data))
+
+```
+
