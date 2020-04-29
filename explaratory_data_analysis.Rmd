@@ -39,18 +39,25 @@ ggplot(data, aes(x = age_1)) +
 summary(data$age_1)
 
 #PLS4 score distribution male vs female
-ggplot(data, aes(x = pls4comp_raw1)) +
+ggplot(data, aes(x = change_pls4)) +
   geom_histogram() +
-  facet_grid(vars(gender))
+  facet_grid(vars(gender)) +
+  labs(x = "Change in PLS-4 Score")
 
 summary(data$pls4comp_raw1)
 summary(data$pls4_comp_raw3)
 #increase from 1 to 3
 
 #EOWPVT raw score distribution male vs female 
-ggplot(data, aes(x = eowpvt_raw1)) +
+ggplot(data, aes(x = change_eowpvt)) +
   geom_histogram() +
-  facet_grid(vars(gender))
+  facet_grid(vars(gender)) +
+  labs(x = "Change in EOWVPT Score")
+
+ggplot(data, aes(x = change_emo_total)) +
+  geom_histogram() +
+  facet_grid(vars(gender)) +
+  labs(x = "Change in total emotional score")
 
 summary(data$eowpvt_raw1)
 summary(data$eowpvt_raw3)
@@ -66,24 +73,27 @@ summary(data$emo_sit_3)
 #only slight inc
 
 #look at total pre emotional score for intervention groups vs no intervention
-ggplot(data, aes(x = emo_total_1)) +
+ggplot(data, aes(x = change_emo_total)) +
   geom_histogram() +
   facet_grid(vars(intervention))
 
-summary((data %>% filter(intervention == 1))$emo_total_1)
-summary((data %>% filter(intervention == 0))$emo_total_1)
+summary((data %>% filter(intervention == 1))$change_emo_total)
+summary((data %>% filter(intervention == 0))$change_emo_total)
 #both groups start off pretty similar
 
-#look at total post emotional score for intervention groups vs no intervention
-ggplot(data, aes(x = emo_total_3)) +
-  geom_histogram() +
-  facet_grid(vars(intervention))
+summary((data %>% filter(intervention == 0))$change_emo_total)
 
-summary((data %>% filter(intervention == 1))$emo_total_3)
-summary((data %>% filter(intervention == 0))$emo_total_3)
-
-#compare emo_total_1 to emo_total_3; did intervention make a difference?
 ```
+
+```{r}
+ggplot(data, aes(x = change_pls4)) +
+  geom_histogram()
+ggplot(data, aes(x = change_eowpvt)) +
+  geom_histogram()
+ggplot(data, aes(x = change_emo_total)) +
+  geom_histogram()
+```
+
 
 Bivariate Analysis
 ```{r}
@@ -180,6 +190,16 @@ data <- data %>%
 
 multiple regression
 ```{r}
+
+simple_mod <- lm(change_pls4 ~ i_group, data = data)
+summary(simple_mod)
+
+simple_mod2 <- lm(change_eowpvt ~ i_group, data = data)
+summary(simple_mod2)
+
+simple_mod3 <- lm(change_emo_total ~ i_group, data = data)
+summary(simple_mod3)
+
 mult_mod <- lm(change_pls4 ~ i_group + nviq_ss + ped + word_span + age_1, data = data)
 summary(mult_mod)
 
