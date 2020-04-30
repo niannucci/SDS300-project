@@ -199,18 +199,32 @@ summary(simple_mod2)
 
 simple_mod3 <- lm(change_emo_total ~ i_group, data = data)
 summary(simple_mod3)
+```
 
-mult_mod <- lm(change_pls4 ~ i_group + nviq_ss + ped + word_span + age_1, data = data)
-summary(mult_mod)
+```{r}
+mult_mod_iq <- lm(change_pls4 ~ i_group + nviq_ss + (i_group*nviq_ss), data = data)
+summary(mult_mod_iq)
 
-mult_mod2 <- lm(change_eowpvt ~ i_group + nviq_ss + ped + word_span + age_1, data = data)
-summary(mult_mod2)
+mult_mod_iq_word <- lm(change_pls4 ~ i_group + nviq_ss + word_span + (i_group*nviq_ss) + (i_group*word_span) + (nviq_ss*word_span), data = data)
+summary(mult_mod_iq_word)
 
-mult_mod3 <- lm(change_emo_total ~ i_group + nviq_ss + ped + age_1, data = data)
-summary(mult_mod3)
+mult_mod_iq_word_age <- lm(change_pls4 ~ i_group + nviq_ss + word_span + age_1 + (i_group*nviq_ss) + (i_group*word_span) + (i_group*age_1) + (nviq_ss*word_span) + (nviq_ss*age_1) + (word_span*age_1), data = data)
+summary(mult_mod_iq_word_age)
+```
 
-summary(lm(change_emo_sit ~ i_group + nviq_ss + word_span + age_1, data = data))
-summary(lm(change_emo_desire ~ nviq_ss + word_span, data = data))
+```{r}
+summary(lm(change_eowpvt ~ i_group + nviq_ss + (i_group*nviq_ss), data = data))
 
+summary(lm(change_eowpvt ~ i_group + nviq_ss + word_span + (i_group*nviq_ss) + (i_group*word_span) + (nviq_ss*word_span), data = data))
+
+summary(lm(change_eowpvt ~ i_group + nviq_ss + word_span + age_1 + (i_group*nviq_ss) + (i_group*word_span) + (i_group*age_1) + (nviq_ss*word_span) + (nviq_ss*age_1) + (word_span*age_1), data = data))
+```
+
+```{r}
+summary(lm(change_emo_total ~ i_group + nviq_ss + (i_group*nviq_ss), data = data))
+
+summary(lm(change_emo_total ~ i_group + nviq_ss + word_span + (i_group*nviq_ss) + (i_group*word_span) + (nviq_ss*word_span), data = data))
+
+summary(lm(change_emo_total ~ i_group + nviq_ss + word_span + age_1 + (i_group*nviq_ss) + (i_group*word_span) + (i_group*age_1) + (nviq_ss*word_span) + (nviq_ss*age_1) + (word_span*age_1), data = data))
 ```
 
